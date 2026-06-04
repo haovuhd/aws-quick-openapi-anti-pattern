@@ -1,13 +1,13 @@
 {
   "openapi": "3.0.3",
   "info": {
-    "title": "HRManagement-AntiPatterns",
+    "title": "TechVNManagement",
     "version": "1.0.0",
-    "description": "DO NOT USE IN PRODUCTION. This schema uses nested objects, arrays, anyOf, and other patterns that break or reduce accuracy in Amazon Q Business agents. Compare with openapi-schema.json (flattened version) to see the difference."
+    "description": "HR Management API for querying and managing employees, departments, and projects at TechVN"
   },
   "servers": [
     {
-      "url": "https://my-json-server.typicode.com/haovuhd/aws-quick-openapi"
+      "url": "https://my-json-server.typicode.com/haovuhd/aws-quick-openapi-anti-pattern"
     }
   ],
   "paths": {
@@ -34,7 +34,7 @@
       },
       "post": {
         "operationId": "CreateEmployee",
-        "description": "Create a new employee",
+        "description": "Create a new employee record",
         "requestBody": {
           "required": true,
           "content": {
@@ -44,7 +44,7 @@
                 "properties": {
                   "employee_name": {
                     "type": "string",
-                    "description": "Full name"
+                    "description": "Full name of the employee"
                   },
                   "email": {
                     "type": "string",
@@ -52,7 +52,7 @@
                   },
                   "department": {
                     "type": "object",
-                    "description": "ANTI-PATTERN: Nested object in requestBody. Agent cannot fill nested fields. Should be flattened to department_name, department_location.",
+                    "description": "Department information",
                     "properties": {
                       "id": { "type": "integer" },
                       "name": { "type": "string" },
@@ -66,7 +66,7 @@
                   },
                   "compensation": {
                     "type": "object",
-                    "description": "ANTI-PATTERN: Nested object for salary info. Agent cannot fill nested fields. Should be flattened to base_salary, bonus.",
+                    "description": "Salary and bonus details",
                     "properties": {
                       "base_salary": { "type": "integer" },
                       "bonus": { "type": "integer" },
@@ -76,11 +76,11 @@
                   },
                   "employment_status": {
                     "type": "string",
-                    "description": "ANTI-PATTERN: No enum. Agent may guess wrong values. Should have enum: [Active, Inactive]."
+                    "description": "Current employment status"
                   },
                   "contract_period": {
                     "type": "object",
-                    "description": "ANTI-PATTERN: Nested date range. Agent cannot fill start/end inside a nested object. Should be flattened to hire_date, contract_end_date.",
+                    "description": "Contract date range",
                     "properties": {
                       "start_date": {
                         "type": "string",
@@ -90,22 +90,21 @@
                         "anyOf": [
                           { "type": "string", "format": "date" },
                           { "type": "null" }
-                        ],
-                        "description": "ANTI-PATTERN: anyOf with null. Agent does not know which type to use."
+                        ]
                       }
                     },
                     "required": ["start_date"]
                   },
                   "skills": {
                     "type": "array",
-                    "description": "ANTI-PATTERN: Array of strings. Array types are NOT SUPPORTED in requestBody. Should be a comma-separated string.",
+                    "description": "List of skills",
                     "items": {
                       "type": "string"
                     }
                   },
                   "certifications": {
                     "type": "array",
-                    "description": "ANTI-PATTERN: Array of objects. Even worse than array of strings. Agent cannot construct arrays of structured objects.",
+                    "description": "Professional certifications",
                     "items": {
                       "type": "object",
                       "properties": {
@@ -116,21 +115,19 @@
                   },
                   "manager": {
                     "type": "object",
-                    "description": "ANTI-PATTERN: Nested object. Should be flattened to manager_name.",
+                    "description": "Direct manager",
                     "properties": {
                       "id": {
                         "anyOf": [
                           { "type": "integer" },
                           { "type": "null" }
-                        ],
-                        "description": "ANTI-PATTERN: anyOf with null."
+                        ]
                       },
                       "name": {
                         "anyOf": [
                           { "type": "string" },
                           { "type": "null" }
-                        ],
-                        "description": "ANTI-PATTERN: anyOf with null."
+                        ]
                       }
                     }
                   }
@@ -163,7 +160,7 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "description": "ANTI-PATTERN: Non-descriptive param name. Should be employeeId.",
+            "description": "Employee ID",
             "schema": {
               "type": "integer"
             }
@@ -214,7 +211,7 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "description": "ANTI-PATTERN: Non-descriptive param name. Should be departmentId.",
+            "description": "Department ID",
             "schema": {
               "type": "integer"
             }
@@ -265,7 +262,7 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "description": "ANTI-PATTERN: Non-descriptive param name. Should be projectId.",
+            "description": "Project ID",
             "schema": {
               "type": "integer"
             }
