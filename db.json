@@ -1,0 +1,15 @@
+{
+  "employees": [
+    { "id": 1, "name": "Alice Johnson", "department": "Engineering", "job_title": "Software Engineer", "salary": 95000, "status": "Active" },
+    { "id": 2, "name": "Bob Smith", "department": "Marketing", "job_title": "Marketing Manager", "salary": 85000, "status": "Active" },
+    { "id": 3, "name": "Carol White", "department": "HR", "job_title": "HR Specialist", "salary": 65000, "status": "Active" },
+    { "id": 4, "name": "David Lee", "department": "Engineering", "job_title": "DevOps Engineer", "salary": 105000, "status": "Active" },
+    { "id": 5, "name": "Emma Brown", "department": "Sales", "job_title": "Sales Executive", "salary": 70000, "status": "Active" }
+  ],
+  "departments": [
+    { "id": 1, "name": "Engineering", "headcount": 50, "budget": 2000000 },
+    { "id": 2, "name": "Marketing", "headcount": 15, "budget": 800000 },
+    { "id": 3, "name": "HR", "headcount": 10, "budget": 500000 },
+    { "id": 4, "name": "Sales", "headcount": 25, "budget": 1000000 }
+  ]
+}
