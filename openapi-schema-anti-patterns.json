@@ -3,7 +3,7 @@
   "info": {
     "title": "HRManagement-AntiPatterns",
     "version": "1.0.0",
-    "description": "DO NOT USE IN PRODUCTION. This file demonstrates OpenAPI patterns that BREAK or reduce accuracy in Amazon Q Business agents. Each path is labeled with the anti-pattern it demonstrates."
+    "description": "DO NOT USE IN PRODUCTION. This schema uses nested objects, arrays, anyOf, and other patterns that break or reduce accuracy in Amazon Q Business agents. Compare with openapi-schema.json (flattened version) to see the difference."
   },
   "servers": [
     {
@@ -12,9 +12,29 @@
   ],
   "paths": {
     "/employees": {
+      "get": {
+        "operationId": "GetAllEmployees",
+        "description": "Return all employees",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "A list of employees",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Employee"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
       "post": {
-        "operationId": "CreateEmployeeBad",
-        "description": "ANTI-PATTERN DEMO: This endpoint shows multiple patterns that break Q Business agents.",
+        "operationId": "CreateEmployee",
+        "description": "Create a new employee",
         "requestBody": {
           "required": true,
           "content": {
@@ -22,113 +42,161 @@
               "schema": {
                 "type": "object",
                 "properties": {
-
-                  "_comment_1": {
+                  "employee_name": {
                     "type": "string",
-                    "description": "--- ANTI-PATTERN 1: NESTED OBJECTS IN REQUEST BODY --- The 'personal_info' field below is a nested object. Q Business agent cannot reliably fill nested structures. SOLUTION: flatten to top-level fields like employee_name, email, phone."
+                    "description": "Full name"
                   },
-                  "personal_info": {
+                  "email": {
+                    "type": "string",
+                    "description": "Email address"
+                  },
+                  "department": {
                     "type": "object",
-                    "description": "Personal details of the employee",
+                    "description": "ANTI-PATTERN: Nested object in requestBody. Agent cannot fill nested fields. Should be flattened to department_name, department_location.",
                     "properties": {
-                      "name": {
-                        "type": "string"
-                      },
-                      "email": {
-                        "type": "string"
-                      },
-                      "phone": {
-                        "type": "string"
-                      }
+                      "id": { "type": "integer" },
+                      "name": { "type": "string" },
+                      "location": { "type": "string" }
                     },
-                    "required": ["name", "email"]
+                    "required": ["name"]
                   },
-
-                  "_comment_2": {
+                  "job_title": {
                     "type": "string",
-                    "description": "--- ANTI-PATTERN 2: NESTED DATE RANGE OBJECT --- The 'contract_period' field uses nested start/end. Q Business cannot fill nested date ranges. SOLUTION: flatten to contract_start_date and contract_end_date at top level."
+                    "description": "Job title"
+                  },
+                  "compensation": {
+                    "type": "object",
+                    "description": "ANTI-PATTERN: Nested object for salary info. Agent cannot fill nested fields. Should be flattened to base_salary, bonus.",
+                    "properties": {
+                      "base_salary": { "type": "integer" },
+                      "bonus": { "type": "integer" },
+                      "currency": { "type": "string" }
+                    },
+                    "required": ["base_salary"]
+                  },
+                  "employment_status": {
+                    "type": "string",
+                    "description": "ANTI-PATTERN: No enum. Agent may guess wrong values. Should have enum: [Active, Inactive]."
                   },
                   "contract_period": {
                     "type": "object",
-                    "description": "Employment contract date range",
+                    "description": "ANTI-PATTERN: Nested date range. Agent cannot fill start/end inside a nested object. Should be flattened to hire_date, contract_end_date.",
                     "properties": {
-                      "start": {
+                      "start_date": {
                         "type": "string",
                         "format": "date"
                       },
-                      "end": {
-                        "type": "string",
-                        "format": "date"
+                      "end_date": {
+                        "anyOf": [
+                          { "type": "string", "format": "date" },
+                          { "type": "null" }
+                        ],
+                        "description": "ANTI-PATTERN: anyOf with null. Agent does not know which type to use."
                       }
                     },
-                    "required": ["start", "end"]
-                  },
-
-                  "_comment_3": {
-                    "type": "string",
-                    "description": "--- ANTI-PATTERN 3: ARRAY INPUT --- Array types in request body are NOT SUPPORTED. Q Business agent cannot construct arrays. SOLUTION: accept comma-separated string or limit to single value."
+                    "required": ["start_date"]
                   },
                   "skills": {
                     "type": "array",
-                    "description": "List of skills the employee has",
+                    "description": "ANTI-PATTERN: Array of strings. Array types are NOT SUPPORTED in requestBody. Should be a comma-separated string.",
                     "items": {
                       "type": "string"
                     }
                   },
-
-                  "_comment_4": {
-                    "type": "string",
-                    "description": "--- ANTI-PATTERN 4: ARRAY OF OBJECTS --- Even worse than simple arrays. Agent cannot construct arrays of structured objects. SOLUTION: remove or restructure as separate API calls."
-                  },
                   "certifications": {
                     "type": "array",
-                    "description": "List of professional certifications",
+                    "description": "ANTI-PATTERN: Array of objects. Even worse than array of strings. Agent cannot construct arrays of structured objects.",
                     "items": {
                       "type": "object",
                       "properties": {
-                        "cert_name": {
-                          "type": "string"
-                        },
-                        "issued_date": {
-                          "type": "string",
-                          "format": "date"
-                        }
+                        "name": { "type": "string" },
+                        "issued_date": { "type": "string", "format": "date" }
                       }
                     }
                   },
-
-                  "_comment_5": {
-                    "type": "string",
-                    "description": "--- ANTI-PATTERN 5: NON-DESCRIPTIVE PARAMETER NAME --- 'id' and 'type' alone are ambiguous. SOLUTION: use employee_id, employment_type."
-                  },
-                  "type": {
-                    "type": "string",
-                    "description": "type of the employee"
-                  },
-
-                  "_comment_6": {
-                    "type": "string",
-                    "description": "--- ANTI-PATTERN 6: NO ENUM FOR KNOWN VALUES --- When values are limited and known, always use enum. Without enum, agent may guess wrong values. SOLUTION: add enum array."
-                  },
-                  "department": {
-                    "type": "string",
-                    "description": "Department name"
+                  "manager": {
+                    "type": "object",
+                    "description": "ANTI-PATTERN: Nested object. Should be flattened to manager_name.",
+                    "properties": {
+                      "id": {
+                        "anyOf": [
+                          { "type": "integer" },
+                          { "type": "null" }
+                        ],
+                        "description": "ANTI-PATTERN: anyOf with null."
+                      },
+                      "name": {
+                        "anyOf": [
+                          { "type": "string" },
+                          { "type": "null" }
+                        ],
+                        "description": "ANTI-PATTERN: anyOf with null."
+                      }
+                    }
                   }
-                }
+                },
+                "required": ["employee_name", "department", "job_title", "compensation", "employment_status"]
               }
             }
           }
         },
         "responses": {
           "201": {
-            "description": "Employee created",
+            "description": "Created employee",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "id": { "type": "integer" },
-                    "status": { "type": "string" }
+                  "$ref": "#/components/schemas/Employee"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/employees/{id}": {
+      "get": {
+        "operationId": "GetEmployeeById",
+        "description": "Get a single employee by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ANTI-PATTERN: Non-descriptive param name. Should be employeeId.",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Employee details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Employee"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/departments": {
+      "get": {
+        "operationId": "GetAllDepartments",
+        "description": "Return all departments",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "A list of departments",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Department"
                   }
                 }
               }
@@ -137,44 +205,28 @@
         }
       }
     },
-    "/reports": {
+    "/departments/{id}": {
       "get": {
-        "operationId": "GetReport",
-        "description": "ANTI-PATTERN DEMO: Uses oneOf/anyOf in response which confuses the agent when multiple response shapes exist.",
+        "operationId": "GetDepartmentById",
+        "description": "Get a single department by ID",
         "parameters": [
           {
-            "name": "report_type",
-            "in": "query",
+            "name": "id",
+            "in": "path",
             "required": true,
+            "description": "ANTI-PATTERN: Non-descriptive param name. Should be departmentId.",
             "schema": {
-              "type": "string"
+              "type": "integer"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "A report - but response shape varies (BAD)",
+            "description": "Department details",
             "content": {
               "application/json": {
                 "schema": {
-                  "_comment_7": "--- ANTI-PATTERN 7: oneOf / anyOf --- Agent gets confused when multiple response shapes are possible. SOLUTION: return consistent response shape, or split into separate endpoints.",
-                  "oneOf": [
-                    {
-                      "type": "object",
-                      "properties": {
-                        "employee_name": { "type": "string" },
-                        "salary": { "type": "integer" }
-                      }
-                    },
-                    {
-                      "type": "object",
-                      "properties": {
-                        "department_name": { "type": "string" },
-                        "headcount": { "type": "integer" },
-                        "budget": { "type": "integer" }
-                      }
-                    }
-                  ]
+                  "$ref": "#/components/schemas/Department"
                 }
               }
             }
@@ -182,17 +234,21 @@
         }
       }
     },
-    "/org-chart": {
+    "/projects": {
       "get": {
-        "operationId": "GetOrgChart",
-        "description": "ANTI-PATTERN DEMO: Uses circular $ref (OrgNode references itself). Agent cannot resolve recursive schemas.",
+        "operationId": "GetAllProjects",
+        "description": "Return all projects",
+        "parameters": [],
         "responses": {
           "200": {
-            "description": "Organization chart tree (BAD - recursive)",
+            "description": "A list of projects",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/OrgNode"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Project"
+                  }
                 }
               }
             }
@@ -200,33 +256,28 @@
         }
       }
     },
-    "/search": {
+    "/projects/{id}": {
       "get": {
-        "operationId": "search_1",
-        "description": "ANTI-PATTERN DEMO: Ambiguous operationId (search_1), no description of what is being searched, too many parameters, and uses additionalProperties.",
+        "operationId": "GetProjectById",
+        "description": "Get a single project by ID",
         "parameters": [
-          { "name": "q", "in": "query", "schema": { "type": "string" }, "description": "query" },
-          { "name": "type", "in": "query", "schema": { "type": "string" }, "description": "type" },
-          { "name": "status", "in": "query", "schema": { "type": "string" }, "description": "status" },
-          { "name": "dept", "in": "query", "schema": { "type": "string" }, "description": "dept" },
-          { "name": "sort", "in": "query", "schema": { "type": "string" }, "description": "sort" },
-          { "name": "order", "in": "query", "schema": { "type": "string" }, "description": "order" },
-          { "name": "page", "in": "query", "schema": { "type": "integer" }, "description": "page" },
-          { "name": "limit", "in": "query", "schema": { "type": "integer" }, "description": "limit" },
-          { "name": "fields", "in": "query", "schema": { "type": "string" }, "description": "fields" },
-          { "name": "format", "in": "query", "schema": { "type": "string" }, "description": "format" },
-          { "name": "start", "in": "query", "schema": { "type": "string" }, "description": "start" },
-          { "name": "end", "in": "query", "schema": { "type": "string" }, "description": "end" }
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ANTI-PATTERN: Non-descriptive param name. Should be projectId.",
+            "schema": {
+              "type": "integer"
+            }
+          }
         ],
         "responses": {
           "200": {
-            "description": "Search results with unknown shape (BAD)",
+            "description": "Project details",
             "content": {
               "application/json": {
                 "schema": {
-                  "_comment_8": "--- ANTI-PATTERN 8: additionalProperties --- Agent does not know the structure of the response. SOLUTION: define explicit properties.",
-                  "type": "object",
-                  "additionalProperties": true
+                  "$ref": "#/components/schemas/Project"
                 }
               }
             }
@@ -237,21 +288,160 @@
   },
   "components": {
     "schemas": {
-      "OrgNode": {
-        "_comment_9": "--- ANTI-PATTERN 9: CIRCULAR $ref --- This schema references itself recursively. Agent cannot handle infinite nesting. SOLUTION: flatten to a list with parent_id field instead of tree structure.",
+      "Employee": {
         "type": "object",
         "properties": {
-          "employee_name": {
-            "type": "string"
+          "id": { "type": "integer" },
+          "employee_name": { "type": "string" },
+          "email": { "type": "string" },
+          "department": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "integer" },
+              "name": { "type": "string" },
+              "location": { "type": "string" }
+            }
           },
-          "job_title": {
-            "type": "string"
+          "job_title": { "type": "string" },
+          "compensation": {
+            "type": "object",
+            "properties": {
+              "base_salary": { "type": "integer" },
+              "bonus": { "type": "integer" },
+              "currency": { "type": "string" }
+            }
           },
-          "direct_reports": {
+          "employment_status": { "type": "string" },
+          "contract_period": {
+            "type": "object",
+            "properties": {
+              "start_date": { "type": "string", "format": "date" },
+              "end_date": {
+                "anyOf": [
+                  { "type": "string", "format": "date" },
+                  { "type": "null" }
+                ]
+              }
+            }
+          },
+          "skills": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "certifications": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/OrgNode"
+              "type": "object",
+              "properties": {
+                "name": { "type": "string" },
+                "issued_date": { "type": "string", "format": "date" }
+              }
             }
+          },
+          "manager": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "anyOf": [
+                  { "type": "integer" },
+                  { "type": "null" }
+                ]
+              },
+              "name": {
+                "anyOf": [
+                  { "type": "string" },
+                  { "type": "null" }
+                ]
+              }
+            }
+          }
+        }
+      },
+      "Department": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "department_name": { "type": "string" },
+          "headcount": { "type": "integer" },
+          "budget": {
+            "type": "object",
+            "properties": {
+              "annual": { "type": "integer" },
+              "spent": { "type": "integer" },
+              "currency": { "type": "string" }
+            }
+          },
+          "head": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "integer" },
+              "name": { "type": "string" },
+              "email": { "type": "string" }
+            }
+          },
+          "location": {
+            "type": "object",
+            "properties": {
+              "city": { "type": "string" },
+              "state": { "type": "string" },
+              "country": { "type": "string" }
+            }
+          },
+          "sub_teams": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      },
+      "Project": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "project_name": { "type": "string" },
+          "department": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "integer" },
+              "name": { "type": "string" }
+            }
+          },
+          "project_status": { "type": "string" },
+          "timeline": {
+            "type": "object",
+            "properties": {
+              "start_date": { "type": "string", "format": "date" },
+              "end_date": { "type": "string", "format": "date" },
+              "milestones": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "name": { "type": "string" },
+                    "due_date": { "type": "string", "format": "date" },
+                    "status": { "type": "string" }
+                  }
+                }
+              }
+            }
+          },
+          "budget": {
+            "type": "object",
+            "properties": {
+              "allocated": { "type": "integer" },
+              "spent": { "type": "integer" },
+              "currency": { "type": "string" }
+            }
+          },
+          "lead": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "integer" },
+              "name": { "type": "string" }
+            }
+          },
+          "team_members": {
+            "type": "array",
+            "items": { "type": "integer" }
           }
         }
       }

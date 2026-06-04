@@ -13,7 +13,7 @@
     "/employees": {
       "get": {
         "operationId": "GetAllEmployees",
-        "description": "Return a list of all employees with their name, department, job title, salary, employment status, hire date, and email. Use this to browse the full employee directory or when the user asks about employees without specifying a particular person.",
+        "description": "Return a list of all employees with their name, department, job title, salary, bonus, employment status, hire date, email, skills, certifications, and manager. Use this to browse the full employee directory or when the user asks about employees without specifying a particular person.",
         "parameters": [],
         "responses": {
           "200": {
@@ -45,6 +45,10 @@
                     "type": "string",
                     "description": "Full name of the new employee"
                   },
+                  "email": {
+                    "type": "string",
+                    "description": "Work email address of the employee"
+                  },
                   "department_name": {
                     "type": "string",
                     "description": "Department the employee will belong to",
@@ -54,9 +58,13 @@
                     "type": "string",
                     "description": "Job title or role of the new employee"
                   },
-                  "annual_salary": {
+                  "base_salary": {
                     "type": "integer",
-                    "description": "Annual salary in USD"
+                    "description": "Annual base salary in USD"
+                  },
+                  "bonus": {
+                    "type": "integer",
+                    "description": "Annual bonus amount in USD"
                   },
                   "employment_status": {
                     "type": "string",
@@ -68,12 +76,12 @@
                     "format": "date",
                     "description": "The employee start date in ISO-8601 format (YYYY-MM-DD)"
                   },
-                  "email": {
+                  "manager_name": {
                     "type": "string",
-                    "description": "Work email address of the employee"
+                    "description": "Full name of the employee direct manager, or leave empty if none"
                   }
                 },
-                "required": ["employee_name", "department_name", "job_title", "annual_salary", "employment_status"]
+                "required": ["employee_name", "department_name", "job_title", "base_salary", "employment_status"]
               }
             }
           }
@@ -95,7 +103,7 @@
     "/employees/{employeeId}": {
       "get": {
         "operationId": "GetEmployeeById",
-        "description": "Return details of a single employee by their unique ID. Use this when the user asks about a specific employee and you know their ID. If you do not know the ID, use GetAllEmployees first.",
+        "description": "Return details of a single employee by their unique ID including department, salary, bonus, skills, certifications, and manager. Use this when the user asks about a specific employee and you know their ID. If you do not know the ID, use GetAllEmployees first.",
         "parameters": [
           {
             "name": "employeeId",
@@ -124,7 +132,7 @@
     "/departments": {
       "get": {
         "operationId": "GetAllDepartments",
-        "description": "Return a list of all departments with their name, headcount, annual budget, department head, and office location. Use this to browse the full department directory or when the user asks about departments without specifying a particular one.",
+        "description": "Return a list of all departments with their name, headcount, annual budget, amount spent, department head, office location, and sub-teams. Use this to browse the full department directory or when the user asks about departments without specifying a particular one.",
         "parameters": [],
         "responses": {
           "200": {
@@ -146,7 +154,7 @@
     "/departments/{departmentId}": {
       "get": {
         "operationId": "GetDepartmentById",
-        "description": "Return details of a single department by its unique ID including headcount, budget, department head, and location. Use this when the user asks about a specific department and you know the ID. If you do not know the ID, use GetAllDepartments first.",
+        "description": "Return details of a single department by its unique ID including headcount, budget, department head, location, and sub-teams. Use this when the user asks about a specific department and you know the ID. If you do not know the ID, use GetAllDepartments first.",
         "parameters": [
           {
             "name": "departmentId",
@@ -175,7 +183,7 @@
     "/projects": {
       "get": {
         "operationId": "GetAllProjects",
-        "description": "Return a list of all projects with their name, owning department, status, start and end dates, budget, and project lead. Use this to browse all projects or when the user asks about project status or budgets.",
+        "description": "Return a list of all projects with their name, owning department, status, start and end dates, budget, amount spent, project lead, milestones, and team members. Use this to browse all projects or when the user asks about project status or budgets.",
         "parameters": [],
         "responses": {
           "200": {
@@ -197,7 +205,7 @@
     "/projects/{projectId}": {
       "get": {
         "operationId": "GetProjectById",
-        "description": "Return details of a single project by its unique ID including status, dates, budget, and lead. Use this when the user asks about a specific project and you know the ID. If you do not know the ID, use GetAllProjects first.",
+        "description": "Return details of a single project by its unique ID including status, dates, budget, lead, milestones, and team members. Use this when the user asks about a specific project and you know the ID. If you do not know the ID, use GetAllProjects first.",
         "parameters": [
           {
             "name": "projectId",
@@ -228,6 +236,7 @@
     "schemas": {
       "Employee": {
         "type": "object",
+        "description": "An employee record with flattened fields for optimal Q Business agent accuracy",
         "properties": {
           "id": {
             "type": "integer",
@@ -237,17 +246,29 @@
             "type": "string",
             "description": "Full name of the employee"
           },
+          "email": {
+            "type": "string",
+            "description": "Work email address of the employee"
+          },
           "department_name": {
             "type": "string",
-            "description": "Department the employee belongs to"
+            "description": "Name of the department the employee belongs to"
+          },
+          "department_location": {
+            "type": "string",
+            "description": "Office location of the employee department"
           },
           "job_title": {
             "type": "string",
             "description": "Current job title or role of the employee"
           },
-          "annual_salary": {
+          "base_salary": {
             "type": "integer",
-            "description": "Annual salary of the employee in USD"
+            "description": "Annual base salary in USD"
+          },
+          "bonus": {
+            "type": "integer",
+            "description": "Annual bonus amount in USD"
           },
           "employment_status": {
             "type": "string",
@@ -259,14 +280,28 @@
             "format": "date",
             "description": "The date the employee was hired in ISO-8601 format"
           },
-          "email": {
+          "contract_end_date": {
             "type": "string",
-            "description": "Work email address of the employee"
+            "format": "date",
+            "description": "The last day of the employee contract in ISO-8601 format, or null if still active"
+          },
+          "manager_name": {
+            "type": "string",
+            "description": "Full name of the employee direct manager, or null if none"
+          },
+          "skills": {
+            "type": "string",
+            "description": "Comma-separated list of the employee skills, for example Python, AWS, Docker"
+          },
+          "certifications": {
+            "type": "string",
+            "description": "Comma-separated list of professional certifications with dates, for example AWS Solutions Architect (2022-05-10)"
           }
         }
       },
       "Department": {
         "type": "object",
+        "description": "A department record with flattened fields for optimal Q Business agent accuracy",
         "properties": {
           "id": {
             "type": "integer",
@@ -282,20 +317,41 @@
           },
           "annual_budget": {
             "type": "integer",
-            "description": "Annual operating budget of the department in USD"
+            "description": "Total annual operating budget of the department in USD"
           },
-          "department_head": {
-            "type": "string",
-            "description": "Name of the person leading the department"
+          "budget_spent": {
+            "type": "integer",
+            "description": "Amount of budget spent so far in USD"
           },
-          "location": {
+          "department_head_name": {
             "type": "string",
-            "description": "Office location of the department"
+            "description": "Full name of the person leading the department"
+          },
+          "department_head_email": {
+            "type": "string",
+            "description": "Email address of the department head"
+          },
+          "city": {
+            "type": "string",
+            "description": "City where the department office is located"
+          },
+          "state": {
+            "type": "string",
+            "description": "State where the department office is located"
+          },
+          "country": {
+            "type": "string",
+            "description": "Country where the department office is located"
+          },
+          "sub_teams": {
+            "type": "string",
+            "description": "Comma-separated list of sub-teams within the department, for example Backend, Frontend, DevOps"
           }
         }
       },
       "Project": {
         "type": "object",
+        "description": "A project record with flattened fields for optimal Q Business agent accuracy",
         "properties": {
           "id": {
             "type": "integer",
@@ -307,7 +363,7 @@
           },
           "department_name": {
             "type": "string",
-            "description": "Department that owns the project"
+            "description": "Name of the department that owns the project"
           },
           "project_status": {
             "type": "string",
@@ -324,13 +380,25 @@
             "format": "date",
             "description": "Project end date in ISO-8601 format"
           },
-          "project_budget": {
+          "budget_allocated": {
             "type": "integer",
             "description": "Total budget allocated to the project in USD"
           },
-          "project_lead": {
+          "budget_spent": {
+            "type": "integer",
+            "description": "Amount of project budget spent so far in USD"
+          },
+          "project_lead_name": {
             "type": "string",
-            "description": "Name of the person leading the project"
+            "description": "Full name of the person leading the project"
+          },
+          "milestones": {
+            "type": "string",
+            "description": "Comma-separated list of project milestones with status, for example Phase 1 - Assessment (Completed), Phase 2 - Migration (InProgress)"
+          },
+          "team_member_count": {
+            "type": "integer",
+            "description": "Number of team members assigned to the project"
           }
         }
       }
