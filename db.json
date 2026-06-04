@@ -2,202 +2,191 @@
   "employees": [
     {
       "id": 1,
-      "employee_name": "Alice Johnson",
-      "email": "alice.johnson@example.com",
-      "department": { "id": 1, "name": "Engineering", "location": "San Francisco" },
-      "job_title": "Senior Software Engineer",
-      "compensation": { "base_salary": 120000, "bonus": 15000, "currency": "USD" },
+      "employee_name": "Tran Minh Duc",
+      "email": "duc.tran@techvn.com",
+      "department": { "id": 1, "name": "Product", "location": "Ho Chi Minh City" },
+      "job_title": "Product Manager",
+      "compensation": { "base_salary": 45000, "bonus": 5000, "currency": "USD" },
       "employment_status": "Active",
-      "contract_period": { "start_date": "2021-03-15", "end_date": null },
-      "skills": ["Python", "AWS", "Terraform", "Docker"],
+      "contract_period": { "start_date": "2021-06-01", "end_date": null },
+      "skills": ["Agile", "Jira", "Roadmap Planning", "User Research"],
       "certifications": [
-        { "name": "AWS Solutions Architect", "issued_date": "2022-05-10" },
-        { "name": "Kubernetes CKA", "issued_date": "2023-01-20" }
+        { "name": "Certified Scrum Product Owner", "issued_date": "2022-03-15" }
       ],
       "manager": { "id": null, "name": null }
     },
     {
       "id": 2,
-      "employee_name": "Bob Smith",
-      "email": "bob.smith@example.com",
-      "department": { "id": 2, "name": "Marketing", "location": "New York" },
-      "job_title": "Marketing Manager",
-      "compensation": { "base_salary": 95000, "bonus": 10000, "currency": "USD" },
+      "employee_name": "Nguyen Thi Lan",
+      "email": "lan.nguyen@techvn.com",
+      "department": { "id": 2, "name": "Design", "location": "Ho Chi Minh City" },
+      "job_title": "UI/UX Lead",
+      "compensation": { "base_salary": 38000, "bonus": 4000, "currency": "USD" },
       "employment_status": "Active",
-      "contract_period": { "start_date": "2020-07-01", "end_date": null },
-      "skills": ["SEO", "Content Strategy", "Google Analytics"],
+      "contract_period": { "start_date": "2020-09-15", "end_date": null },
+      "skills": ["Figma", "Design Systems", "User Testing"],
       "certifications": [
-        { "name": "Google Analytics Certified", "issued_date": "2021-08-15" }
+        { "name": "Google UX Design Certificate", "issued_date": "2021-05-20" }
       ],
       "manager": { "id": null, "name": null }
     },
     {
       "id": 3,
-      "employee_name": "Carol White",
-      "email": "carol.white@example.com",
-      "department": { "id": 3, "name": "HR", "location": "San Francisco" },
-      "job_title": "HR Specialist",
-      "compensation": { "base_salary": 72000, "bonus": 5000, "currency": "USD" },
+      "employee_name": "Le Hoang Nam",
+      "email": "nam.le@techvn.com",
+      "department": { "id": 3, "name": "Backend", "location": "Da Nang" },
+      "job_title": "Senior Backend Developer",
+      "compensation": { "base_salary": 42000, "bonus": 6000, "currency": "USD" },
       "employment_status": "Active",
-      "contract_period": { "start_date": "2022-01-10", "end_date": null },
-      "skills": ["Recruiting", "Employee Relations", "HRIS"],
-      "certifications": [],
-      "manager": { "id": null, "name": null }
+      "contract_period": { "start_date": "2019-03-10", "end_date": null },
+      "skills": ["Java", "Spring Boot", "PostgreSQL", "Redis"],
+      "certifications": [
+        { "name": "AWS Developer Associate", "issued_date": "2023-01-10" },
+        { "name": "Oracle Certified Professional", "issued_date": "2021-08-22" }
+      ],
+      "manager": { "id": 1, "name": "Tran Minh Duc" }
     },
     {
       "id": 4,
-      "employee_name": "David Lee",
-      "email": "david.lee@example.com",
-      "department": { "id": 1, "name": "Engineering", "location": "San Francisco" },
-      "job_title": "DevOps Engineer",
-      "compensation": { "base_salary": 115000, "bonus": 12000, "currency": "USD" },
+      "employee_name": "Pham Thu Ha",
+      "email": "ha.pham@techvn.com",
+      "department": { "id": 4, "name": "QA", "location": "Da Nang" },
+      "job_title": "QA Team Lead",
+      "compensation": { "base_salary": 35000, "bonus": 3500, "currency": "USD" },
       "employment_status": "Active",
-      "contract_period": { "start_date": "2021-09-20", "end_date": null },
-      "skills": ["Kubernetes", "CI/CD", "AWS", "Linux"],
+      "contract_period": { "start_date": "2020-11-20", "end_date": null },
+      "skills": ["Selenium", "Cypress", "API Testing", "TestRail"],
       "certifications": [
-        { "name": "AWS DevOps Professional", "issued_date": "2022-11-03" }
+        { "name": "ISTQB Foundation", "issued_date": "2021-04-18" }
       ],
-      "manager": { "id": 1, "name": "Alice Johnson" }
+      "manager": { "id": 1, "name": "Tran Minh Duc" }
     },
     {
       "id": 5,
-      "employee_name": "Emma Brown",
-      "email": "emma.brown@example.com",
-      "department": { "id": 4, "name": "Sales", "location": "Chicago" },
-      "job_title": "Sales Executive",
-      "compensation": { "base_salary": 78000, "bonus": 20000, "currency": "USD" },
+      "employee_name": "Vo Thanh Tung",
+      "email": "tung.vo@techvn.com",
+      "department": { "id": 5, "name": "DevOps", "location": "Ha Noi" },
+      "job_title": "DevOps Engineer",
+      "compensation": { "base_salary": 40000, "bonus": 5000, "currency": "USD" },
       "employment_status": "Active",
-      "contract_period": { "start_date": "2023-02-14", "end_date": null },
-      "skills": ["Salesforce", "Negotiation", "B2B Sales"],
-      "certifications": [],
-      "manager": { "id": 7, "name": "Noah Garcia" }
-    },
-    {
-      "id": 6,
-      "employee_name": "Grace Chen",
-      "email": "grace.chen@example.com",
-      "department": { "id": 5, "name": "Finance", "location": "New York" },
-      "job_title": "Financial Analyst",
-      "compensation": { "base_salary": 88000, "bonus": 9000, "currency": "USD" },
-      "employment_status": "Active",
-      "contract_period": { "start_date": "2021-11-05", "end_date": null },
-      "skills": ["Financial Modeling", "Excel", "SAP"],
+      "contract_period": { "start_date": "2022-02-01", "end_date": null },
+      "skills": ["Docker", "Kubernetes", "Terraform", "AWS"],
       "certifications": [
-        { "name": "CFA Level II", "issued_date": "2023-06-01" }
+        { "name": "AWS Solutions Architect", "issued_date": "2023-06-15" }
       ],
       "manager": { "id": null, "name": null }
     },
     {
-      "id": 7,
-      "employee_name": "Noah Garcia",
-      "email": "noah.garcia@example.com",
-      "department": { "id": 4, "name": "Sales", "location": "Chicago" },
-      "job_title": "Sales Director",
-      "compensation": { "base_salary": 130000, "bonus": 25000, "currency": "USD" },
+      "id": 6,
+      "employee_name": "Dang Thuy Linh",
+      "email": "linh.dang@techvn.com",
+      "department": { "id": 3, "name": "Backend", "location": "Da Nang" },
+      "job_title": "Junior Backend Developer",
+      "compensation": { "base_salary": 18000, "bonus": 1500, "currency": "USD" },
       "employment_status": "Active",
-      "contract_period": { "start_date": "2020-02-28", "end_date": null },
-      "skills": ["Sales Strategy", "Team Leadership", "Forecasting"],
+      "contract_period": { "start_date": "2024-01-08", "end_date": null },
+      "skills": ["Node.js", "Express", "MongoDB"],
       "certifications": [],
-      "manager": { "id": null, "name": null }
+      "manager": { "id": 3, "name": "Le Hoang Nam" }
     },
     {
-      "id": 8,
-      "employee_name": "James Taylor",
-      "email": "james.taylor@example.com",
-      "department": { "id": 4, "name": "Sales", "location": "Chicago" },
-      "job_title": "Account Manager",
-      "compensation": { "base_salary": 82000, "bonus": 15000, "currency": "USD" },
+      "id": 7,
+      "employee_name": "Bui Quoc Viet",
+      "email": "viet.bui@techvn.com",
+      "department": { "id": 1, "name": "Product", "location": "Ho Chi Minh City" },
+      "job_title": "Business Analyst",
+      "compensation": { "base_salary": 30000, "bonus": 3000, "currency": "USD" },
       "employment_status": "Inactive",
-      "contract_period": { "start_date": "2019-05-30", "end_date": "2024-03-15" },
-      "skills": ["CRM", "Account Management"],
+      "contract_period": { "start_date": "2021-07-15", "end_date": "2024-04-30" },
+      "skills": ["Requirements Analysis", "SQL", "Power BI"],
       "certifications": [],
-      "manager": { "id": 7, "name": "Noah Garcia" }
+      "manager": { "id": 1, "name": "Tran Minh Duc" }
     }
   ],
   "departments": [
     {
-      "id": 1, "department_name": "Engineering", "headcount": 50,
-      "budget": { "annual": 2500000, "spent": 1800000, "currency": "USD" },
-      "head": { "id": 1, "name": "Alice Johnson", "email": "alice.johnson@example.com" },
-      "location": { "city": "San Francisco", "state": "CA", "country": "US" },
-      "sub_teams": ["Backend", "Frontend", "DevOps", "QA"]
-    },
-    {
-      "id": 2, "department_name": "Marketing", "headcount": 18,
-      "budget": { "annual": 900000, "spent": 650000, "currency": "USD" },
-      "head": { "id": 2, "name": "Bob Smith", "email": "bob.smith@example.com" },
-      "location": { "city": "New York", "state": "NY", "country": "US" },
-      "sub_teams": ["Content", "Digital", "Brand"]
-    },
-    {
-      "id": 3, "department_name": "HR", "headcount": 12,
+      "id": 1, "department_name": "Product", "headcount": 12,
       "budget": { "annual": 600000, "spent": 420000, "currency": "USD" },
-      "head": { "id": 3, "name": "Carol White", "email": "carol.white@example.com" },
-      "location": { "city": "San Francisco", "state": "CA", "country": "US" },
-      "sub_teams": ["Recruiting", "Compensation"]
+      "head": { "id": 1, "name": "Tran Minh Duc", "email": "duc.tran@techvn.com" },
+      "location": { "city": "Ho Chi Minh City", "state": "HCM", "country": "VN" },
+      "sub_teams": ["Product Management", "Business Analysis"]
     },
     {
-      "id": 4, "department_name": "Sales", "headcount": 30,
-      "budget": { "annual": 1200000, "spent": 900000, "currency": "USD" },
-      "head": { "id": 7, "name": "Noah Garcia", "email": "noah.garcia@example.com" },
-      "location": { "city": "Chicago", "state": "IL", "country": "US" },
-      "sub_teams": ["Enterprise", "SMB"]
+      "id": 2, "department_name": "Design", "headcount": 8,
+      "budget": { "annual": 350000, "spent": 240000, "currency": "USD" },
+      "head": { "id": 2, "name": "Nguyen Thi Lan", "email": "lan.nguyen@techvn.com" },
+      "location": { "city": "Ho Chi Minh City", "state": "HCM", "country": "VN" },
+      "sub_teams": ["UI/UX", "Graphic Design"]
     },
     {
-      "id": 5, "department_name": "Finance", "headcount": 15,
-      "budget": { "annual": 750000, "spent": 500000, "currency": "USD" },
-      "head": { "id": 6, "name": "Grace Chen", "email": "grace.chen@example.com" },
-      "location": { "city": "New York", "state": "NY", "country": "US" },
-      "sub_teams": ["Accounting", "FP&A"]
+      "id": 3, "department_name": "Backend", "headcount": 20,
+      "budget": { "annual": 900000, "spent": 680000, "currency": "USD" },
+      "head": { "id": 3, "name": "Le Hoang Nam", "email": "nam.le@techvn.com" },
+      "location": { "city": "Da Nang", "state": "DN", "country": "VN" },
+      "sub_teams": ["API", "Database", "Microservices"]
+    },
+    {
+      "id": 4, "department_name": "QA", "headcount": 10,
+      "budget": { "annual": 400000, "spent": 290000, "currency": "USD" },
+      "head": { "id": 4, "name": "Pham Thu Ha", "email": "ha.pham@techvn.com" },
+      "location": { "city": "Da Nang", "state": "DN", "country": "VN" },
+      "sub_teams": ["Manual QA", "Automation"]
+    },
+    {
+      "id": 5, "department_name": "DevOps", "headcount": 6,
+      "budget": { "annual": 500000, "spent": 350000, "currency": "USD" },
+      "head": { "id": 5, "name": "Vo Thanh Tung", "email": "tung.vo@techvn.com" },
+      "location": { "city": "Ha Noi", "state": "HN", "country": "VN" },
+      "sub_teams": ["Infrastructure", "CI/CD"]
     }
   ],
   "projects": [
     {
-      "id": 1, "project_name": "Platform Migration",
-      "department": { "id": 1, "name": "Engineering" },
+      "id": 1, "project_name": "E-Commerce Platform",
+      "department": { "id": 3, "name": "Backend" },
       "project_status": "InProgress",
       "timeline": {
-        "start_date": "2024-01-15", "end_date": "2024-12-31",
+        "start_date": "2024-02-01", "end_date": "2024-11-30",
         "milestones": [
-          { "name": "Assessment", "due_date": "2024-03-31", "status": "Completed" },
-          { "name": "Migration", "due_date": "2024-09-30", "status": "InProgress" },
-          { "name": "Validation", "due_date": "2024-12-31", "status": "Planned" }
+          { "name": "MVP", "due_date": "2024-05-31", "status": "Completed" },
+          { "name": "Payment Integration", "due_date": "2024-08-31", "status": "InProgress" },
+          { "name": "Go Live", "due_date": "2024-11-30", "status": "Planned" }
         ]
       },
-      "budget": { "allocated": 500000, "spent": 320000, "currency": "USD" },
-      "lead": { "id": 1, "name": "Alice Johnson" },
-      "team_members": [1, 4]
+      "budget": { "allocated": 250000, "spent": 160000, "currency": "USD" },
+      "lead": { "id": 3, "name": "Le Hoang Nam" },
+      "team_members": [3, 4, 6]
     },
     {
-      "id": 2, "project_name": "Brand Refresh Campaign",
-      "department": { "id": 2, "name": "Marketing" },
-      "project_status": "InProgress",
-      "timeline": {
-        "start_date": "2024-03-01", "end_date": "2024-09-30",
-        "milestones": [
-          { "name": "Research", "due_date": "2024-04-30", "status": "Completed" },
-          { "name": "Creative", "due_date": "2024-07-31", "status": "InProgress" },
-          { "name": "Launch", "due_date": "2024-09-30", "status": "Planned" }
-        ]
-      },
-      "budget": { "allocated": 150000, "spent": 95000, "currency": "USD" },
-      "lead": { "id": 2, "name": "Bob Smith" },
-      "team_members": [2]
-    },
-    {
-      "id": 3, "project_name": "Q4 Sales Push",
-      "department": { "id": 4, "name": "Sales" },
+      "id": 2, "project_name": "Mobile Banking App",
+      "department": { "id": 1, "name": "Product" },
       "project_status": "Planned",
       "timeline": {
-        "start_date": "2024-10-01", "end_date": "2024-12-31",
+        "start_date": "2024-09-01", "end_date": "2025-06-30",
         "milestones": [
-          { "name": "Target Setting", "due_date": "2024-10-15", "status": "Planned" },
-          { "name": "Execution", "due_date": "2024-12-15", "status": "Planned" }
+          { "name": "Discovery", "due_date": "2024-10-31", "status": "Planned" },
+          { "name": "Design", "due_date": "2025-01-31", "status": "Planned" },
+          { "name": "Development", "due_date": "2025-05-31", "status": "Planned" }
         ]
       },
-      "budget": { "allocated": 200000, "spent": 0, "currency": "USD" },
-      "lead": { "id": 7, "name": "Noah Garcia" },
-      "team_members": [5, 7, 8]
+      "budget": { "allocated": 400000, "spent": 0, "currency": "USD" },
+      "lead": { "id": 1, "name": "Tran Minh Duc" },
+      "team_members": [1, 2, 7]
+    },
+    {
+      "id": 3, "project_name": "Cloud Migration",
+      "department": { "id": 5, "name": "DevOps" },
+      "project_status": "Completed",
+      "timeline": {
+        "start_date": "2024-01-10", "end_date": "2024-06-30",
+        "milestones": [
+          { "name": "Assessment", "due_date": "2024-02-28", "status": "Completed" },
+          { "name": "Migration", "due_date": "2024-05-31", "status": "Completed" }
+        ]
+      },
+      "budget": { "allocated": 180000, "spent": 165000, "currency": "USD" },
+      "lead": { "id": 5, "name": "Vo Thanh Tung" },
+      "team_members": [5]
     }
   ]
 }
