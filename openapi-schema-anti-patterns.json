@@ -1,0 +1,260 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "HRManagement-AntiPatterns",
+    "version": "1.0.0",
+    "description": "DO NOT USE IN PRODUCTION. This file demonstrates OpenAPI patterns that BREAK or reduce accuracy in Amazon Q Business agents. Each path is labeled with the anti-pattern it demonstrates."
+  },
+  "servers": [
+    {
+      "url": "https://my-json-server.typicode.com/haovuhd/aws-quick-openapi"
+    }
+  ],
+  "paths": {
+    "/employees": {
+      "post": {
+        "operationId": "CreateEmployeeBad",
+        "description": "ANTI-PATTERN DEMO: This endpoint shows multiple patterns that break Q Business agents.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+
+                  "_comment_1": {
+                    "type": "string",
+                    "description": "--- ANTI-PATTERN 1: NESTED OBJECTS IN REQUEST BODY --- The 'personal_info' field below is a nested object. Q Business agent cannot reliably fill nested structures. SOLUTION: flatten to top-level fields like employee_name, email, phone."
+                  },
+                  "personal_info": {
+                    "type": "object",
+                    "description": "Personal details of the employee",
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "email": {
+                        "type": "string"
+                      },
+                      "phone": {
+                        "type": "string"
+                      }
+                    },
+                    "required": ["name", "email"]
+                  },
+
+                  "_comment_2": {
+                    "type": "string",
+                    "description": "--- ANTI-PATTERN 2: NESTED DATE RANGE OBJECT --- The 'contract_period' field uses nested start/end. Q Business cannot fill nested date ranges. SOLUTION: flatten to contract_start_date and contract_end_date at top level."
+                  },
+                  "contract_period": {
+                    "type": "object",
+                    "description": "Employment contract date range",
+                    "properties": {
+                      "start": {
+                        "type": "string",
+                        "format": "date"
+                      },
+                      "end": {
+                        "type": "string",
+                        "format": "date"
+                      }
+                    },
+                    "required": ["start", "end"]
+                  },
+
+                  "_comment_3": {
+                    "type": "string",
+                    "description": "--- ANTI-PATTERN 3: ARRAY INPUT --- Array types in request body are NOT SUPPORTED. Q Business agent cannot construct arrays. SOLUTION: accept comma-separated string or limit to single value."
+                  },
+                  "skills": {
+                    "type": "array",
+                    "description": "List of skills the employee has",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+
+                  "_comment_4": {
+                    "type": "string",
+                    "description": "--- ANTI-PATTERN 4: ARRAY OF OBJECTS --- Even worse than simple arrays. Agent cannot construct arrays of structured objects. SOLUTION: remove or restructure as separate API calls."
+                  },
+                  "certifications": {
+                    "type": "array",
+                    "description": "List of professional certifications",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "cert_name": {
+                          "type": "string"
+                        },
+                        "issued_date": {
+                          "type": "string",
+                          "format": "date"
+                        }
+                      }
+                    }
+                  },
+
+                  "_comment_5": {
+                    "type": "string",
+                    "description": "--- ANTI-PATTERN 5: NON-DESCRIPTIVE PARAMETER NAME --- 'id' and 'type' alone are ambiguous. SOLUTION: use employee_id, employment_type."
+                  },
+                  "type": {
+                    "type": "string",
+                    "description": "type of the employee"
+                  },
+
+                  "_comment_6": {
+                    "type": "string",
+                    "description": "--- ANTI-PATTERN 6: NO ENUM FOR KNOWN VALUES --- When values are limited and known, always use enum. Without enum, agent may guess wrong values. SOLUTION: add enum array."
+                  },
+                  "department": {
+                    "type": "string",
+                    "description": "Department name"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Employee created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": { "type": "integer" },
+                    "status": { "type": "string" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/reports": {
+      "get": {
+        "operationId": "GetReport",
+        "description": "ANTI-PATTERN DEMO: Uses oneOf/anyOf in response which confuses the agent when multiple response shapes exist.",
+        "parameters": [
+          {
+            "name": "report_type",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A report - but response shape varies (BAD)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "_comment_7": "--- ANTI-PATTERN 7: oneOf / anyOf --- Agent gets confused when multiple response shapes are possible. SOLUTION: return consistent response shape, or split into separate endpoints.",
+                  "oneOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "employee_name": { "type": "string" },
+                        "salary": { "type": "integer" }
+                      }
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "department_name": { "type": "string" },
+                        "headcount": { "type": "integer" },
+                        "budget": { "type": "integer" }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/org-chart": {
+      "get": {
+        "operationId": "GetOrgChart",
+        "description": "ANTI-PATTERN DEMO: Uses circular $ref (OrgNode references itself). Agent cannot resolve recursive schemas.",
+        "responses": {
+          "200": {
+            "description": "Organization chart tree (BAD - recursive)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrgNode"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/search": {
+      "get": {
+        "operationId": "search_1",
+        "description": "ANTI-PATTERN DEMO: Ambiguous operationId (search_1), no description of what is being searched, too many parameters, and uses additionalProperties.",
+        "parameters": [
+          { "name": "q", "in": "query", "schema": { "type": "string" }, "description": "query" },
+          { "name": "type", "in": "query", "schema": { "type": "string" }, "description": "type" },
+          { "name": "status", "in": "query", "schema": { "type": "string" }, "description": "status" },
+          { "name": "dept", "in": "query", "schema": { "type": "string" }, "description": "dept" },
+          { "name": "sort", "in": "query", "schema": { "type": "string" }, "description": "sort" },
+          { "name": "order", "in": "query", "schema": { "type": "string" }, "description": "order" },
+          { "name": "page", "in": "query", "schema": { "type": "integer" }, "description": "page" },
+          { "name": "limit", "in": "query", "schema": { "type": "integer" }, "description": "limit" },
+          { "name": "fields", "in": "query", "schema": { "type": "string" }, "description": "fields" },
+          { "name": "format", "in": "query", "schema": { "type": "string" }, "description": "format" },
+          { "name": "start", "in": "query", "schema": { "type": "string" }, "description": "start" },
+          { "name": "end", "in": "query", "schema": { "type": "string" }, "description": "end" }
+        ],
+        "responses": {
+          "200": {
+            "description": "Search results with unknown shape (BAD)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "_comment_8": "--- ANTI-PATTERN 8: additionalProperties --- Agent does not know the structure of the response. SOLUTION: define explicit properties.",
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "OrgNode": {
+        "_comment_9": "--- ANTI-PATTERN 9: CIRCULAR $ref --- This schema references itself recursively. Agent cannot handle infinite nesting. SOLUTION: flatten to a list with parent_id field instead of tree structure.",
+        "type": "object",
+        "properties": {
+          "employee_name": {
+            "type": "string"
+          },
+          "job_title": {
+            "type": "string"
+          },
+          "direct_reports": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrgNode"
+            }
+          }
+        }
+      }
+    }
+  }
+}

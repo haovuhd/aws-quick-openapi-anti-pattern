@@ -1,15 +1,34 @@
 {
   "employees": [
-    { "id": 1, "name": "Alice Johnson", "department": "Engineering", "job_title": "Software Engineer", "salary": 95000, "status": "Active" },
-    { "id": 2, "name": "Bob Smith", "department": "Marketing", "job_title": "Marketing Manager", "salary": 85000, "status": "Active" },
-    { "id": 3, "name": "Carol White", "department": "HR", "job_title": "HR Specialist", "salary": 65000, "status": "Active" },
-    { "id": 4, "name": "David Lee", "department": "Engineering", "job_title": "DevOps Engineer", "salary": 105000, "status": "Active" },
-    { "id": 5, "name": "Emma Brown", "department": "Sales", "job_title": "Sales Executive", "salary": 70000, "status": "Active" }
+    { "id": 1, "employee_name": "Alice Johnson", "department_name": "Engineering", "job_title": "Senior Software Engineer", "annual_salary": 120000, "employment_status": "Active", "hire_date": "2021-03-15", "email": "alice.johnson@example.com" },
+    { "id": 2, "employee_name": "Bob Smith", "department_name": "Marketing", "job_title": "Marketing Manager", "annual_salary": 95000, "employment_status": "Active", "hire_date": "2020-07-01", "email": "bob.smith@example.com" },
+    { "id": 3, "employee_name": "Carol White", "department_name": "HR", "job_title": "HR Specialist", "annual_salary": 72000, "employment_status": "Active", "hire_date": "2022-01-10", "email": "carol.white@example.com" },
+    { "id": 4, "employee_name": "David Lee", "department_name": "Engineering", "job_title": "DevOps Engineer", "annual_salary": 115000, "employment_status": "Active", "hire_date": "2021-09-20", "email": "david.lee@example.com" },
+    { "id": 5, "employee_name": "Emma Brown", "department_name": "Sales", "job_title": "Sales Executive", "annual_salary": 78000, "employment_status": "Active", "hire_date": "2023-02-14", "email": "emma.brown@example.com" },
+    { "id": 6, "employee_name": "Frank Wilson", "department_name": "Engineering", "job_title": "QA Engineer", "annual_salary": 90000, "employment_status": "Active", "hire_date": "2022-06-01", "email": "frank.wilson@example.com" },
+    { "id": 7, "employee_name": "Grace Chen", "department_name": "Finance", "job_title": "Financial Analyst", "annual_salary": 88000, "employment_status": "Active", "hire_date": "2021-11-05", "email": "grace.chen@example.com" },
+    { "id": 8, "employee_name": "Henry Davis", "department_name": "Engineering", "job_title": "Frontend Developer", "annual_salary": 105000, "employment_status": "Active", "hire_date": "2023-04-17", "email": "henry.davis@example.com" },
+    { "id": 9, "employee_name": "Isabella Martinez", "department_name": "Marketing", "job_title": "Content Strategist", "annual_salary": 75000, "employment_status": "Active", "hire_date": "2023-08-21", "email": "isabella.martinez@example.com" },
+    { "id": 10, "employee_name": "James Taylor", "department_name": "Sales", "job_title": "Account Manager", "annual_salary": 82000, "employment_status": "Inactive", "hire_date": "2019-05-30", "email": "james.taylor@example.com" },
+    { "id": 11, "employee_name": "Karen Nguyen", "department_name": "Engineering", "job_title": "Backend Developer", "annual_salary": 110000, "employment_status": "Active", "hire_date": "2022-10-03", "email": "karen.nguyen@example.com" },
+    { "id": 12, "employee_name": "Liam Anderson", "department_name": "HR", "job_title": "Recruiting Coordinator", "annual_salary": 65000, "employment_status": "Active", "hire_date": "2024-01-08", "email": "liam.anderson@example.com" },
+    { "id": 13, "employee_name": "Mia Thompson", "department_name": "Finance", "job_title": "Accountant", "annual_salary": 70000, "employment_status": "Active", "hire_date": "2023-06-12", "email": "mia.thompson@example.com" },
+    { "id": 14, "employee_name": "Noah Garcia", "department_name": "Sales", "job_title": "Sales Director", "annual_salary": 130000, "employment_status": "Active", "hire_date": "2020-02-28", "email": "noah.garcia@example.com" },
+    { "id": 15, "employee_name": "Olivia Robinson", "department_name": "Marketing", "job_title": "Digital Marketing Specialist", "annual_salary": 72000, "employment_status": "Inactive", "hire_date": "2021-04-19", "email": "olivia.robinson@example.com" }
   ],
   "departments": [
-    { "id": 1, "name": "Engineering", "headcount": 50, "budget": 2000000 },
-    { "id": 2, "name": "Marketing", "headcount": 15, "budget": 800000 },
-    { "id": 3, "name": "HR", "headcount": 10, "budget": 500000 },
-    { "id": 4, "name": "Sales", "headcount": 25, "budget": 1000000 }
+    { "id": 1, "department_name": "Engineering", "headcount": 50, "annual_budget": 2500000, "department_head": "Alice Johnson", "location": "San Francisco" },
+    { "id": 2, "department_name": "Marketing", "headcount": 18, "annual_budget": 900000, "department_head": "Bob Smith", "location": "New York" },
+    { "id": 3, "department_name": "HR", "headcount": 12, "annual_budget": 600000, "department_head": "Carol White", "location": "San Francisco" },
+    { "id": 4, "department_name": "Sales", "headcount": 30, "annual_budget": 1200000, "department_head": "Noah Garcia", "location": "Chicago" },
+    { "id": 5, "department_name": "Finance", "headcount": 15, "annual_budget": 750000, "department_head": "Grace Chen", "location": "New York" }
+  ],
+  "projects": [
+    { "id": 1, "project_name": "Platform Migration", "department_name": "Engineering", "project_status": "InProgress", "start_date": "2024-01-15", "end_date": "2024-12-31", "project_budget": 500000, "project_lead": "Alice Johnson" },
+    { "id": 2, "project_name": "Brand Refresh Campaign", "department_name": "Marketing", "project_status": "InProgress", "start_date": "2024-03-01", "end_date": "2024-09-30", "project_budget": 150000, "project_lead": "Bob Smith" },
+    { "id": 3, "project_name": "Employee Onboarding Portal", "department_name": "HR", "project_status": "Completed", "start_date": "2024-02-01", "end_date": "2024-06-30", "project_budget": 80000, "project_lead": "Carol White" },
+    { "id": 4, "project_name": "Q4 Sales Push", "department_name": "Sales", "project_status": "Planned", "start_date": "2024-10-01", "end_date": "2024-12-31", "project_budget": 200000, "project_lead": "Noah Garcia" },
+    { "id": 5, "project_name": "Mobile App v2", "department_name": "Engineering", "project_status": "InProgress", "start_date": "2024-06-01", "end_date": "2025-03-31", "project_budget": 350000, "project_lead": "David Lee" },
+    { "id": 6, "project_name": "Annual Budget Review", "department_name": "Finance", "project_status": "Completed", "start_date": "2024-01-10", "end_date": "2024-02-28", "project_budget": 30000, "project_lead": "Grace Chen" }
   ]
 }
