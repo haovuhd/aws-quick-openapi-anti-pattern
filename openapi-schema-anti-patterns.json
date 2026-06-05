@@ -84,50 +84,36 @@
                     "properties": {
                       "start_date": {
                         "type": "string",
-                        "format": "date"
+                        "format": "date",
+                        "description": "Contract start date in ISO-8601 format (YYYY-MM-DD)"
                       },
                       "end_date": {
-                        "anyOf": [
-                          { "type": "string", "format": "date" },
-                          { "type": "null" }
-                        ]
+                        "type": "string",
+                        "format": "date",
+                        "description": "Contract end date in ISO-8601 format (YYYY-MM-DD), or leave empty if still active"
                       }
                     },
                     "required": ["start_date"]
                   },
                   "skills": {
-                    "type": "array",
-                    "description": "List of skills",
-                    "items": {
-                      "type": "string"
-                    }
+                    "type": "string",
+                    "description": "Comma-separated list of skills, for example Python, FastAPI, PostgreSQL"
                   },
                   "certifications": {
-                    "type": "array",
-                    "description": "Professional certifications",
-                    "items": {
-                      "type": "object",
-                      "properties": {
-                        "name": { "type": "string" },
-                        "issued_date": { "type": "string", "format": "date" }
-                      }
-                    }
+                    "type": "string",
+                    "description": "Comma-separated list of certifications with dates, for example ISTQB Foundation (2023-09-15), AWS Developer (2024-01-10)"
                   },
                   "manager": {
                     "type": "object",
                     "description": "Direct manager",
                     "properties": {
                       "id": {
-                        "anyOf": [
-                          { "type": "integer" },
-                          { "type": "null" }
-                        ]
+                        "type": "integer",
+                        "description": "Manager employee ID"
                       },
                       "name": {
-                        "anyOf": [
-                          { "type": "string" },
-                          { "type": "null" }
-                        ]
+                        "type": "string",
+                        "description": "Manager full name"
                       }
                     }
                   }
